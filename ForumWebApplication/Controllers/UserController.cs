@@ -15,14 +15,9 @@ namespace ForumWebApplication.Controllers
 
         public async Task<IActionResult> CreateUser([FromBody]UserDTO user)
         {
-            var result = _genericRepository.CreateAsync(user);
+            var result = await _genericRepository.CreateAsync(user);
 
             if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if(!result.IsCompleted)
             {
                 return BadRequest(ModelState);
             }
