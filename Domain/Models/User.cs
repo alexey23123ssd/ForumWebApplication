@@ -1,9 +1,6 @@
-﻿using Domain.Interfaces;
-using System.Xml.Linq;
-
-namespace Domain.Models
+﻿namespace Domain.Models
 {
-    public class User : IBaseEntity
+    public class User : BaseEntity
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

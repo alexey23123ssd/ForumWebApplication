@@ -21,7 +21,7 @@ namespace Infrastructure.Extensions
 
         private static void AddServices(this IServiceCollection services)
         {
-            services.AddTransient<IGenericRepository<UserDTO>,UserService>();
+            services.AddTransient<IGenericRepository<CommentDTO>,UserService>();
         }
     }
 }

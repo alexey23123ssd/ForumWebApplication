@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ForumWebApplication.Controllers
 {
+    [Route("[controller]")]
     public class UserController : Controller
     {
         private readonly IGenericRepository<UserDTO> _genericRepository;
@@ -13,7 +14,9 @@ namespace ForumWebApplication.Controllers
           _genericRepository = genericRepo;
         }
 
-        public async Task<IActionResult> CreateUser([FromBody]UserDTO user)
+        [Route("CreateUser")]
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromBody] UserDTO user)
         {
             var result = await _genericRepository.CreateAsync(user);
 
@@ -22,7 +25,18 @@ namespace ForumWebApplication.Controllers
                 return BadRequest(ModelState);
             }
 
-            return View(result);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.ErrorMessage);
+            }
+            return RedirectToAction("Index");
+        }
+
+        [Route("UpdateUser")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UserDTO user)
+        {
+
         }
     }
 }

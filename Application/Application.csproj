@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="MediatR" Version="12.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
       <PrivateAssets>all</PrivateAssets>
@@ -21,9 +22,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Themes\" />
+    <Folder Include="Features\Articles\" />
+    <Folder Include="Features\Comments\" />
+    <Folder Include="Features\Users\Queries\GetUserById\" />
+    <Folder Include="Features\Users\Queries\GetUserByName\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\ForumWebApplication\ForumWebApplication.csproj" />
-    <ProjectReference Include="..\Persistence\Persistence.csproj" />
   </ItemGroup>
 
 </Project>

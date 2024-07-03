@@ -8,8 +8,8 @@ namespace Infrastructure.Automapper
     {
         public MapperProfile() 
         {
-            CreateMap<UserDTO, User>();
-            CreateMap<User, UserDTO>();
+            CreateMap<CommentDTO, User>();
+            CreateMap<User, CommentDTO>();
         }
 
     }
