@@ -1,17 +1,20 @@
 ﻿using Domain;
 using System.ComponentModel.DataAnnotations;
 
-namespace ForumWebApplication.DTOs
+namespace Application.Common.DTOs
 {
-    public class CommentDTO : BaseEntity
+    public class ArticleDTO : BaseEntity
     {
         public Guid Id { get; set; }
         [Required]
         [StringLength(50), MinLength(5)]
+        public string Title { get; set; }
+        [Required]
+        [StringLength(300), MinLength(10)]
         public string Content { get; set; }
         [Required]
         public string Author { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }
 }

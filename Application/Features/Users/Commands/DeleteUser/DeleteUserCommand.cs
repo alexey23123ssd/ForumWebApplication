@@ -1,10 +1,10 @@
 ﻿using Domain.Helpers;
 using MediatR;
-using Domain.Models;
+using Application.Common.DTOs;
 
 namespace Application.Features.Users.Commands.DeleteUser
 {
-    public class DeleteUserCommand : IRequest<ServiceResponse<User>>
+    public class DeleteUserCommand : IRequest<ServiceResponse<UserDTO>>
     {
         public Guid Id { get; set; }
     }

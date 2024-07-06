@@ -1,9 +1,10 @@
-﻿using Domain.Models;
+﻿using Application.Common.DTOs;
+using Domain.Helpers;
 using MediatR;
 
 namespace Application.Features.Users.Commands.CreateUser
 {
-    public class CreateUserCommand : IRequest<User>
+    public class CreateUserCommand : IRequest<ServiceDataResponse<UserDTO>>
     {
         public string Name { get; set; }
         public string Email { get; set; }

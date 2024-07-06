@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Domain.Helpers;
-using Domain.Interfaces.Repositiries;
+using Application.Interfaces.Repositiries;
 using Domain.Models;
-using ForumWebApplication.DTOs;
+using Application.Common.DTOs;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Contexts;
 namespace Infrastructure.Services

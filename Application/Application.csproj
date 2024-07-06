@@ -8,7 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.9.2" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="MediatR" Version="12.3.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
       <PrivateAssets>all</PrivateAssets>
@@ -25,8 +28,6 @@
     <Folder Include="Features\Themes\" />
     <Folder Include="Features\Articles\" />
     <Folder Include="Features\Comments\" />
-    <Folder Include="Features\Users\Queries\GetUserById\" />
-    <Folder Include="Features\Users\Queries\GetUserByName\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,9 +1,9 @@
-﻿using Domain.Interfaces;
+﻿using Domain;
 using System.ComponentModel.DataAnnotations;
 
-namespace ForumWebApplication.DTOs
+namespace Application.Common.DTOs
 {
-    public class UserDTO : IBaseEntity
+    public class UserDTO : BaseEntity
     {
         public Guid Id { get; set; }
         [Required]
@@ -15,7 +15,7 @@ namespace ForumWebApplication.DTOs
         [Required]
         [StringLength(20), MinLength(8)]
         public string Password { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } 
         public DateTime? UpdatedAt { get; set; }
     }
 }

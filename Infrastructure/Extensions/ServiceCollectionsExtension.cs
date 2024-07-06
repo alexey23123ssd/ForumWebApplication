@@ -1,5 +1,5 @@
-﻿using Domain.Interfaces.Repositiries;
-using ForumWebApplication.DTOs;
+﻿using Application.Common.DTOs;
+using Application.Interfaces.Repositiries;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -21,7 +21,7 @@ namespace Infrastructure.Extensions
 
         private static void AddServices(this IServiceCollection services)
         {
-            services.AddTransient<IGenericRepository<CommentDTO>,UserService>();
+            services.AddTransient<IGenericRepository<UserDTO>,UserService>();
         }
     }
 }

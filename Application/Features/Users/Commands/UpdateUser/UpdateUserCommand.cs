@@ -1,9 +1,10 @@
 ﻿using MediatR;
-using Domain.Models;
+using Application.Common.DTOs;
+using Domain.Helpers;
 
 namespace Application.Features.Users.Commands.UpdateUser
 {
-    public class UpdateUserCommand : IRequest<User>
+    public class UpdateUserCommand : IRequest<ServiceDataResponse<UserDTO>>
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

@@ -1,23 +1,31 @@
-﻿using Domain.Interfaces.Repositiries;
-using Domain.Models;
+﻿using Application.Common.DTOs;
+using Domain.Helpers;
+using Application.Interfaces.Repositiries;
+using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Application.Features.Users.Commands.CreateUser
 {
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand,ServiceDataResponse<UserDTO>>
     {
-        private readonly IGenericRepository<User> _repository;
+        private readonly IGenericRepository<UserDTO> _repository;
+        private readonly IValidator<CreateUserCommand> _validator;
 
-        public CreateUserCommandHandler(IGenericRepository<User> genericRepository)
+        public CreateUserCommandHandler(IGenericRepository<UserDTO> genericRepository, IValidator<CreateUserCommand> validator)
         {
-                _repository = genericRepository;
+            _repository = genericRepository;
+            _validator = validator;
         }
 
-        public async Task<User> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<ServiceDataResponse<UserDTO>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var user = new User
+            var validationResult = await _validator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
+            var user = new UserDTO
             {
                 Name = request.Name,
                 Email = request.Email,
