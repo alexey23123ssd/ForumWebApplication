@@ -1,6 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Domain.Helpers;
-using Domain.Interfaces.Repositiries;
+using Application.Interfaces.Repositiries;
 using Domain.Models;
 using MediatR;
 using AutoMapper;
@@ -12,12 +12,10 @@ namespace Application.Features.Users.Commands.DeleteUser
     public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand,ServiceResponse<UserDTO>>
     {
         private readonly IGenericRepository<UserDTO> _repository;
-        private readonly IMapper _mapper;
 
-        public DeleteUserCommandHandler(IGenericRepository<UserDTO> genericRepository,IMapper mapper)
+        public DeleteUserCommandHandler(IGenericRepository<UserDTO> genericRepository)
         {
             _repository = genericRepository;
-            _mapper = mapper;
         }
 
         public async Task<ServiceResponse<UserDTO>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
@@ -28,7 +26,7 @@ namespace Application.Features.Users.Commands.DeleteUser
                 throw new NotFoundException(nameof(serviceResponse));
             }
 
-            var user = _mapper.Map<User>(serviceResponse);
+            var user = serviceResponse.Data;
 
            return await _repository.DeleteAsync(user.Id);
         }

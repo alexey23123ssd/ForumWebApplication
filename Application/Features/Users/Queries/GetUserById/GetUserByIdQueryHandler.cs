@@ -1,6 +1,6 @@
 ﻿using Application.Common.DTOs;
 using Domain.Helpers;
-using Domain.Interfaces.Repositiries;
+using Application.Interfaces.Repositiries;
 using MediatR;
 
 namespace Application.Features.Users.Queries.GetUserById
@@ -16,7 +16,7 @@ namespace Application.Features.Users.Queries.GetUserById
 
         public async Task<ServiceDataResponse<UserDTO>> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
         {
-            return await _repository.GetByIdAsync(query.id);
+            return await _repository.GetByIdAsync(query.Id);
         }
     }
 }

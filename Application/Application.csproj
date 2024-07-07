@@ -25,9 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Themes\" />
     <Folder Include="Features\Articles\" />
     <Folder Include="Features\Comments\" />
+    <Folder Include="Features\Themes\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

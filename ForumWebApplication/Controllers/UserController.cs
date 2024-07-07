@@ -1,52 +1,56 @@
-﻿using Application.Interfaces.Repositiries;
-using Application.Common.DTOs;
-using Microsoft.AspNetCore.Mvc;
+﻿using Application.Features.Users.Commands.CreateUser;
+using Application.Features.Users.Commands.DeleteUser;
+using Application.Features.Users.Commands.UpdateUser;
+using Application.Features.Users.Queries.GetUserById;
 using MediatR;
-using Application.Features.Users.Commands.CreateUser;
-using Domain.Helpers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ForumWebApplication.Controllers
 {
     [Route("[controller]")]
     public class UserController : Controller
     {
-        private readonly IGenericRepository<UserDTO> _genericRepository;
         private readonly IMediator _mediator;
 
-        public UserController(IGenericRepository<UserDTO> genericRepo,IMediator mediator)
+        public UserController(IMediator mediator)
         {
-          _genericRepository = genericRepo;
           _mediator = mediator;
         }
 
         [Route("CreateUser")]
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] UserDTO user)
+        public async Task<IActionResult> CreateUser([FromForm]CreateUserCommand command)
         {
-            var result = await _genericRepository.CreateAsync(user);
-
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (!result.IsSuccess)
-            {
-                return BadRequest(result.ErrorMessage);
-            }
+            await _mediator.Send(command);
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult<ServiceDataResponse<UserDTO>>> Create([FromForm]CreateUserCommand command)
+        [Route("UpdateUser")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromForm] UpdateUserCommand command)
         {
-            return await _mediator.Send(command);
+            if (id != command.Id)
+            {
+                return BadRequest();
+            }
+            await _mediator.Send(command);
+            return RedirectToAction("Index");
         }
 
-        [Route("UpdateUser")]
-        [HttpPost]
-        public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UserDTO user)
+        [Route("DeleteUser")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUser([FromRoute] Guid id)
         {
+            await _mediator.Send(new DeleteUserCommand(id));
+            return RedirectToAction("Index");
+        }
 
+        [Route ("GetUser")]
+        [HttpGet]
+        public async Task<IActionResult> GetUserById([FromRoute] Guid id)
+        {
+            await _mediator.Send(new GetUserByIdQuery(id));
+            return RedirectToAction("Index");
         }
     }
 }

@@ -6,6 +6,11 @@ namespace Application.Features.Users.Queries.GetUserById
 {
     public class GetUserByIdQuery : IRequest<ServiceDataResponse<UserDTO>>
     {
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
+
+        public GetUserByIdQuery(Guid id)
+        {
+          Id = id;
+        }
     }
 }
