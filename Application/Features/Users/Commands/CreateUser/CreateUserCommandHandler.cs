@@ -1,18 +1,19 @@
 ﻿using Application.Common.DTOs;
-using Domain.Helpers;
+using Application.Interfaces;
 using Application.Interfaces.Repositiries;
-using FluentValidation;
+using Application.Interfaces.Repositories;
+using Domain.Helpers;
 using MediatR;
 
 namespace Application.Features.Users.Commands.CreateUser
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand,ServiceDataResponse<UserDTO>>
     {
-        private readonly IGenericRepository<UserDTO> _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateUserCommandHandler(IGenericRepository<UserDTO> genericRepository)
+        public CreateUserCommandHandler(IUnitOfWork unitOfWork)
         {
-            _repository = genericRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ServiceDataResponse<UserDTO>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -24,7 +25,11 @@ namespace Application.Features.Users.Commands.CreateUser
                 Password = request.Password,
                 CreatedAt = DateTime.UtcNow,
             };
-            return await _repository.CreateAsync(user);
+
+            await _unitOfWork.userRepository.CreateUserAsync(user);
+            await _unitOfWork.Save(cancellationToken);
+
+            return ServiceDataResponse<UserDTO>.Succeeded(user);
         }
     }
 }

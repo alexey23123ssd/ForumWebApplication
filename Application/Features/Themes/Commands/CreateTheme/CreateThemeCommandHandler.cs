@@ -2,17 +2,17 @@
 using Application.Interfaces.Repositiries;
 using Domain.Helpers;
 using MediatR;
-using FluentValidation;
+using Application.Interfaces;
 
 namespace Application.Features.Themes.Commands.CreateTheme
 {
     public class CreateThemeCommandHandler : IRequestHandler<CreateThemeCommand, ServiceDataResponse<ThemeDTO>>
     {
-        private readonly IGenericRepository<ThemeDTO> _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateThemeCommandHandler(IGenericRepository<ThemeDTO> repository)
+        public CreateThemeCommandHandler(IUnitOfWork unitOfWork)
         {
-           _repository = repository;
+           _unitOfWork = unitOfWork;
         }
 
         public async Task<ServiceDataResponse<ThemeDTO>> Handle(CreateThemeCommand request, CancellationToken cancellationToken)
@@ -24,7 +24,12 @@ namespace Application.Features.Themes.Commands.CreateTheme
                 CreatedAt = DateTime.UtcNow,
             };
 
-            return await _repository.CreateAsync(theme);
+            var userId = request.UserId;
+
+            await _unitOfWork.themeRepository.CreateThemeAsync(userId,theme);
+            await _unitOfWork.Save(cancellationToken);
+
+            return ServiceDataResponse<ThemeDTO>.Succeeded(theme);
         }
     }
 }

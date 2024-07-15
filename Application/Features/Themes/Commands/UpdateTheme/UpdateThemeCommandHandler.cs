@@ -1,22 +1,26 @@
 ﻿using Application.Common.DTOs;
-using Application.Interfaces.Repositiries;
+using Domain.Models;
 using Application.Common.Exceptions;
 using Domain.Helpers;
 using MediatR;
+using AutoMapper;
+using Application.Interfaces;
 
 namespace Application.Features.Themes.Commands.UpdateTheme
 {
     public class UpdateThemeCommandHandler : IRequestHandler<UpdateThemeCommand, ServiceDataResponse<ThemeDTO>>
     {
-        private readonly IGenericRepository<ThemeDTO> _repository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public UpdateThemeCommandHandler(IGenericRepository<ThemeDTO> repository)
+        public UpdateThemeCommandHandler(IUnitOfWork unitOfWork,IMapper mapper)
         {
-                _repository = repository;
+            _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
         public async Task<ServiceDataResponse<ThemeDTO>> Handle(UpdateThemeCommand request, CancellationToken cancellationToken)
         {
-            var serviceDataResponse = await _repository.GetByIdAsync(request.Id);
+            var serviceDataResponse = await _unitOfWork.Repository<Theme>().GetByIdAsync(request.Id);
 
             if (serviceDataResponse == null)
             {
@@ -29,7 +33,14 @@ namespace Application.Features.Themes.Commands.UpdateTheme
             theme.Description = request.Description;
             theme.UpdatedAt = DateTime.UtcNow;
 
-            return await _repository.UpdateAsync(theme);
+            var themeId = theme.Id;
+
+            var themeDTO = _mapper.Map<ThemeDTO>(theme);
+
+            await _unitOfWork.Repository<Theme>().UpdateAsync(themeId, theme);
+            await _unitOfWork.Save(cancellationToken);
+
+            return ServiceDataResponse<ThemeDTO>.Succeeded(themeDTO);
         }
     }
 }

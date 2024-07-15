@@ -11,17 +11,10 @@ namespace Infrastructure.Extensions
         public static void AddInfrastructureLayer(this IServiceCollection services)
         {
             services.AddAutoMapper();
-            services.AddServices();
         }
 
         private static void AddAutoMapper(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
         }
-
-        private static void AddServices(this IServiceCollection services)
-        {
-            services.AddTransient<IGenericRepository<UserDTO>,UserService>();
-        }
-    }
 }

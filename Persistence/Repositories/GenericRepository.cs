@@ -1,7 +1,6 @@
 ﻿using Application.Interfaces.Repositiries;
 using Domain;
 using Domain.Helpers;
-using Microsoft.EntityFrameworkCore;
 using Persistence.Contexts;
 
 namespace Persistence.Repositories
@@ -18,14 +17,6 @@ namespace Persistence.Repositories
 
         public async Task<ServiceDataResponse<T>> CreateAsync(T entity)
         {
-            if(entity == null)
-            {
-                return ServiceDataResponse<T>.Failed("Entity cannot be null");
-            }
-
-            var entityId = Guid.NewGuid();
-            entity.Id = entityId;
-
             await _dbcontext.Set<T>().AddAsync(entity);
 
             return ServiceDataResponse<T>.Succeeded(entity);
@@ -58,8 +49,6 @@ namespace Persistence.Repositories
             {
                 return ServiceDataResponse<T>.Failed("Entity with this id not found");
             }
-
-            await _dbcontext.Set<T>().FindAsync(id);
 
             return ServiceDataResponse<T>.Succeeded(entity);
         }

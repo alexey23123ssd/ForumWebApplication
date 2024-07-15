@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.Repositiries;
+using Application.Interfaces.Repositories;
 using Domain;
 using Persistence.Contexts;
 using System.Collections;
@@ -9,7 +10,11 @@ namespace Persistence.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _dbContext;
-        private Hashtable _repositories;
+        private Hashtable? _repositories;
+        private IUserRepository _userRepository;
+        private IThemeRepository _themeRepository;
+        private IArticleRepository _articleRepository;
+        private ICommentRepository _commentRepository;
         private bool _disposed;
 
         public UnitOfWork(ApplicationDbContext dbContext)
@@ -36,6 +41,38 @@ namespace Persistence.Repositories
             }
 
             return (IGenericRepository<T>)_repositories[type];
+        }   
+
+        public IUserRepository userRepository
+        {
+            get
+            {
+                return new UserRepository(_dbContext);
+            }
+        }
+
+        public IArticleRepository articleRepository
+        {
+            get
+            {
+                return new ArticleRepository(_dbContext);
+            }
+        }
+
+        public IThemeRepository themeRepository
+        {
+            get
+            {
+                return new ThemeRepository(_dbContext);
+            }
+        }
+
+        public ICommentRepository commentRepository
+        {
+            get
+            {
+                return new CommentRepository(_dbContext);
+            }
         }
 
         public async Task<int> Save(CancellationToken cancellationToken)
@@ -43,10 +80,6 @@ namespace Persistence.Repositories
             return await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public Task<int> SaveAndRemoveCache(CancellationToken cancellationToken, params string[] cacheKeys)
-        {
-            throw new NotImplementedException();
-        }
 
         public Task Rollback()
         {

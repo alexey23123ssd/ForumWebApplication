@@ -11,7 +11,6 @@
     <PackageReference Include="FluentValidation" Version="11.9.2" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="MediatR" Version="12.3.0" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
       <PrivateAssets>all</PrivateAssets>
@@ -27,7 +26,6 @@
   <ItemGroup>
     <Folder Include="Features\Articles\" />
     <Folder Include="Features\Comments\" />
-    <Folder Include="Features\Themes\Queries\" />
   </ItemGroup>
 
   <ItemGroup>
