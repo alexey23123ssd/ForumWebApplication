@@ -5,6 +5,6 @@ namespace Application.Interfaces.Repositories
 {
     public interface ICommentRepository
     {
-        Task<ServiceDataResponse<CommentDTO>> CreateArticleAsync(Guid id, CommentDTO commentDTO);
+        Task<ServiceDataResponse<CommentDTO>> CreateCommentAsync(Guid id, CommentDTO commentDTO);
     }
 }

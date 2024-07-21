@@ -24,7 +24,7 @@ namespace Persistence.Repositories
             _dbcontext = dbcontext;
         }
 
-        public async Task<ServiceDataResponse<CommentDTO>> CreateArticleAsync(Guid id, CommentDTO commentDTO)
+        public async Task<ServiceDataResponse<CommentDTO>> CreateCommentAsync(Guid id, CommentDTO commentDTO)
         {
             if (id == Guid.Empty)
             {

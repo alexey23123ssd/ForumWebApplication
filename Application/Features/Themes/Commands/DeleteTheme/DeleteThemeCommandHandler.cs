@@ -11,11 +11,9 @@ namespace Application.Features.Themes.Commands.DeleteTheme
     public class DeleteThemeCommandHandler : IRequestHandler<DeleteThemeCommand, ServiceResponse<ThemeDTO>>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         public DeleteThemeCommandHandler(IUnitOfWork unitOfWork,IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
 
         public async Task<ServiceResponse<ThemeDTO>> Handle(DeleteThemeCommand request, CancellationToken cancellationToken)
@@ -29,7 +27,6 @@ namespace Application.Features.Themes.Commands.DeleteTheme
             var theme = serviceResponse.Data;
             var themeId = theme.Id;
 
-            var themeDTO = _mapper.Map<ThemeDTO>(theme);
 
             await _unitOfWork.Repository<Theme>().DeleteAsync(themeId);
             await _unitOfWork.Save(cancellationToken);
