@@ -16,6 +16,7 @@ namespace Application.Common.Mappers
             CreateMap<Article, ArticleDTO>();
             CreateMap<CommentDTO, Comment>();
             CreateMap<Comment, CommentDTO>();
+            CreateMap<IEnumerable<Comment>, IEnumerable<Comment>>();
         }
     }
 }

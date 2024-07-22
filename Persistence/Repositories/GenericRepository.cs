@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces.Repositiries;
 using Domain;
 using Domain.Helpers;
+using Microsoft.EntityFrameworkCore;
 using Persistence.Contexts;
 
 namespace Persistence.Repositories
@@ -36,9 +37,11 @@ namespace Persistence.Repositories
             return ServiceDataResponse<T>.Succeeded();
         }
 
-        public Task<ServiceDataResponse<IEnumerable<T>>> GetAllAsync()
+        public async Task<ServiceDataResponse<IEnumerable<T>>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var entities = await _dbcontext.Set<T>().ToListAsync();
+
+            return ServiceDataResponse<IEnumerable<T>>.Succeeded(entities);
         }
 
         public async Task<ServiceDataResponse<T>> GetByIdAsync(Guid id)
