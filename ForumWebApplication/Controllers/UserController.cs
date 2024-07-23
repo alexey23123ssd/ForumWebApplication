@@ -2,6 +2,8 @@
 using Application.Features.Users.Commands.DeleteUser;
 using Application.Features.Users.Commands.UpdateUser;
 using Application.Features.Users.Queries.GetUserById;
+using Application.Features.Users.ValidatorBehaivors;
+using Application.Features.Users.ValidatorBehaviors;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +23,14 @@ namespace ForumWebApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromForm]CreateUserCommand command)
         {
-            await _mediator.Send(command);
+            var validator = new CreateUserCommandValidator();
+            var result = validator.Validate(command);
+
+            if(result.IsValid) 
+            {
+                await _mediator.Send(command);
+            }
+            
             return RedirectToAction("Index");
         }
 
@@ -29,11 +38,19 @@ namespace ForumWebApplication.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromForm] UpdateUserCommand command)
         {
+            var validator = new UpdateUserCommandValidator();
+            var result = validator.Validate(command);
+
             if (id != command.Id)
             {
                 return BadRequest();
             }
-            await _mediator.Send(command);
+
+            if (result.IsValid)
+            {
+                await _mediator.Send(command);
+            }
+
             return RedirectToAction("Index");
         }
 
@@ -41,7 +58,13 @@ namespace ForumWebApplication.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteUser([FromRoute] Guid id)
         {
+            if(id == Guid.Empty)
+            {
+                return BadRequest();
+            }
+
             await _mediator.Send(new DeleteUserCommand(id));
+
             return RedirectToAction("Index");
         }
 
@@ -49,7 +72,13 @@ namespace ForumWebApplication.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUserById([FromRoute] Guid id)
         {
+            if (id == Guid.Empty)
+            {
+                return BadRequest();
+            }
+
             await _mediator.Send(new GetUserByIdQuery(id));
+
             return RedirectToAction("Index");
         }
     }

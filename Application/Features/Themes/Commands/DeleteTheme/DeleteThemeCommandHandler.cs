@@ -18,7 +18,7 @@ namespace Application.Features.Themes.Commands.DeleteTheme
 
         public async Task<ServiceResponse<ThemeDTO>> Handle(DeleteThemeCommand request, CancellationToken cancellationToken)
         {
-            var serviceResponse = await _unitOfWork.Repository<Theme>().GetByIdAsync(request.id);
+            var serviceResponse = await _unitOfWork.Repository<Theme>().GetByIdAsync(request.Id);
             if (serviceResponse == null)
             {
                 throw new NotFoundException(nameof(serviceResponse));

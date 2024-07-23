@@ -6,6 +6,11 @@ namespace Application.Features.Themes.Commands.DeleteTheme
 {
     public class DeleteThemeCommand : IRequest<ServiceResponse<ThemeDTO>>
     {
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
+
+        public DeleteThemeCommand(Guid id)
+        {
+            Id = id;
+        }
     }
 }

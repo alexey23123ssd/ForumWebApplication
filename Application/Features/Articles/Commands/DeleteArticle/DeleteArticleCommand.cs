@@ -7,5 +7,10 @@ namespace Application.Features.Articles.Commands.DeleteArticle
     public class DeleteArticleCommand : IRequest<ServiceResponse<ArticleDTO>>
     {
         public Guid Id { get; set; }
+
+        public DeleteArticleCommand(Guid id)
+        {
+            Id = id;
+        }
     }
 }

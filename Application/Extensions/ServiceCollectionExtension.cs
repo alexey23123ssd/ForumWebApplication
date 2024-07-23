@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using MediatR;
+using MediatR;  
 using FluentValidation;
 using Application.Features.Users.ValidatorBehaviors;
 
@@ -29,11 +29,6 @@ namespace Application.Extensions
         private static void AddValidators(this IServiceCollection services)
         {
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly()); 
-        }
-
-        private static void AddValidationPipeline(this IServiceCollection services)
-        {
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorPipelineBehavior<,>));
         }
     }
 }
